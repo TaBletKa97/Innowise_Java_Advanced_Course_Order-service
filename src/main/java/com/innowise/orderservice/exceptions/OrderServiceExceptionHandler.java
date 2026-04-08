@@ -1,8 +1,10 @@
 package com.innowise.orderservice.exceptions;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -29,8 +31,11 @@ public class OrderServiceExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
-    @ExceptionHandler(ImmutableOrderUpdateException.class)
-    public ResponseEntity<String> handleOrderNotFoundException(Exception e) {
+    @ExceptionHandler(exception = {ImmutableOrderUpdateException.class,
+            MissingServletRequestParameterException.class,
+            ConstraintViolationException.class
+    })
+    public ResponseEntity<String> handleBadRequestException(Exception e) {
         log.error(e.getMessage(), e);
         return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

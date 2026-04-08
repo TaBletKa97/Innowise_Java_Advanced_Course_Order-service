@@ -1,8 +1,6 @@
 package com.innowise.orderservice.repository.interfaces;
 
 import com.innowise.orderservice.repository.entity.Order;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> findById(Long id);
 
     @EntityGraph(attributePaths = {"orderItems", "orderItems.item"})
-    Page<Order> findAll(Specification<Order> spec, Pageable pageable);
+    List<Order> findAll(Specification<Order> spec);
 
     boolean existsUserIdById(Long orderId, Long userId);
 

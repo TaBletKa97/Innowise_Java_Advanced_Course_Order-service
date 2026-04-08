@@ -75,5 +75,5 @@ public interface OrderService<S, C, U, I> extends BaseService<S, C, U, I> {
      * @return a paginated list of order response DTOs matching the criteria; may
      * be empty but never null
      */
-    Page<S> readAll(Map<String, String> criteria, Pageable pageable);
+    Page<S> readAll(Map<String, Object> criteria, Pageable pageable);
 }

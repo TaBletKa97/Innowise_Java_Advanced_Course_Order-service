@@ -17,6 +17,7 @@ import com.innowise.orderservice.service.mappers.OrderItemMapper;
 import com.innowise.orderservice.service.mappers.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,8 +30,6 @@ import java.util.Map;
 
 import static com.innowise.orderservice.service.OrderSpecification.haveDate;
 import static com.innowise.orderservice.service.OrderSpecification.haveStatus;
-import static com.innowise.orderservice.utils.GlobalConstants.DATE;
-import static com.innowise.orderservice.utils.GlobalConstants.STATUS;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,13 +48,15 @@ public class OrderServiceImpl implements
     }
 
     @Override
-    public Page<OrderResponseDto> readAll(Map<String, String> criteria, Pageable pageable) {
+    public Page<OrderResponseDto> readAll(Map<String, Object> criteria, Pageable pageable) {
 
         Specification<Order> spec = Specification.where((r, q, cb) -> null);
-        spec = spec.and(haveDate(criteria.get(DATE)));
-        spec = spec.and(haveStatus(criteria.get(STATUS)));
+        spec = spec.and(haveDate(criteria));
+        spec = spec.and(haveStatus(criteria));
 
-        return orderRepository.findAll(spec, pageable).map(orderMapper::entityToDto);
+        List<Order> all = orderRepository.findAll(spec);
+
+        return new PageImpl<>(orderMapper.entityListToDto(all), pageable, all.size());
     }
 
     @Override
