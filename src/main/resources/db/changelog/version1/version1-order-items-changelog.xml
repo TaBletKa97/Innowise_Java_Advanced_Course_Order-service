@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create_order_items" author="tabletka97">
+        <createTable tableName="order_items">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_order_items_orders"
+                             referencedTableName="orders"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="item_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_order_items_items"
+                             referencedTableName="items"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp"/>
+            <column name="updated_at" type="timestamp"/>
+        </createTable>
+
+        <createIndex tableName="order_items" indexName="idx_order_items_order_id">
+            <column name="order_id"/>
+        </createIndex>
+
+        <createIndex tableName="order_items" indexName="idx_order_items_item_id">
+            <column name="item_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
