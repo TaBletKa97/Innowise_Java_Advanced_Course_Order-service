@@ -1,5 +1,5 @@
 package com.innowise.orderservice.repository.entity;
 
 public enum OrderStatus {
-    CREATED, APPROVED, REJECTED
+    CREATED, APPROVED, REJECTED, SUSPICIOUS
 }
