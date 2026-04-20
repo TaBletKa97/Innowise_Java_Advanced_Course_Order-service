@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Provides endpoints for creating and updating orders with elevated privileges.
  */
 @RestController
-@RequestMapping(("/admin/orders"))
+@RequestMapping("/admin/orders")
 @PreAuthorize("hasAnyAuthority('ADMIN')")
 public class AdminOrderController {
 
