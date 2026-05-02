@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/items/**").permitAll()
+                        .requestMatchers("/actuator/health/liveness").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
